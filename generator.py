@@ -91,7 +91,11 @@ def getWif(privkey):
     return wif
 
 
-if __name__ == "__main__":
+def run():
     randomBytes = os.urandom(32)
-    print("Address: " + getPublicKey(randomBytes))
-    print("Privkey: " + getWif(randomBytes))
+    # print("Address: " + getPublicKey(randomBytes))
+    # print("Privkey: " + getWif(randomBytes))
+    pub_addr = getPublicKey(randomBytes)
+    priv_key = getWif(randomBytes)
+    
+    return pub_addr, priv_key

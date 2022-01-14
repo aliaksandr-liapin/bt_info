@@ -1,2 +1,3 @@
 Address: 1BH2hNXX6n8mdkb2Hc3oC32hTAMrP5ZLZd
+Compressed Address: 1KPnNLdnFKyvuUMBjkT5o4yBStEmHCYQNU
 Privkey: 3482b6b61dc575d54404426e1c31a4ed1207a538a74baa5f01c71e60d71b17f0
