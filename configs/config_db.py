@@ -1,1 +1,0 @@
-# DB_PATH = '/home/aliapin/Downloads/github/bt_info/btc.db'
