@@ -8,7 +8,7 @@ f = open('results.txt', 'a')
 for hash in hashes:
     a, h =  convertor.hash_to_addr(hash)
     
-    result, addr, priv_key = checker.check_by_addr(a, h)
+    result, addr, priv_key = checker.check_by_addr_new(a, h)
     if result == None:
         break
     else:

@@ -1,6 +1,17 @@
 import requests, bs4
 import time
 
+def check_by_addr_new(address, privKey):
+    addr = address
+
+    # Single address
+    single_addr_url = 'https://blockchain.info/rawaddr/'
+
+    resp = requests.get(f'{single_addr_url}{addr}')
+    json_resp = resp.json()
+    check_result = json_resp['n_tx']
+    
+    return check_result, address, privKey
 
 def check_by_addr(address, privKey):
     url = f'https://www.blockchain.com/btc/address/{address}'
