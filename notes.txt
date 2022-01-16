@@ -1,3 +1,19 @@
-Address: 1BH2hNXX6n8mdkb2Hc3oC32hTAMrP5ZLZd
-Compressed Address: 1KPnNLdnFKyvuUMBjkT5o4yBStEmHCYQNU
-Privkey: 3482b6b61dc575d54404426e1c31a4ed1207a538a74baa5f01c71e60d71b17f0
+Orig Address: 1NiNja1bUmhSoTXozBRBEtR8LeF9TGbZBN
+Orig Address SHA256: CF38DA039B1BDD3CCC0D22174D58CC7E7BB798C98C14366F75AE8BF4DF3752F6 # the same as Private Key HEX
+
+Private Key HEX: CF38DA039B1BDD3CCC0D22174D58CC7E7BB798C98C14366F75AE8BF4DF3752F6 # the same as Orig Address SHA256
+Private Key WIF: 5KPYnrJgFEFYkzUnFiMzWEmhrLAoBaCMpHmbUMuo5PpWx6BfqYz
+Private Key WIF compressed: L4AXKNd2DoVDBAhcjwZep3nKJjcEqfX8sj1q9mJ2NPijBkHBctK2
+
+Public Key: 0454e6d2d2bed3fb3f3ea2cfa64c9b9febbb8bcb7b5cbbecc2d68e28c80e602c0514a53b80155f248d6580eeefb6ca2aff4828917b41097b9927ec40f31329084e 
+Public Key compressed: 0254e6d2d2bed3fb3f3ea2cfa64c9b9febbb8bcb7b5cbbecc2d68e28c80e602c05
+
+Public Address 1: 1Ns55SngRhshA8kEnyuQ9ELZZPN7ubYfQJ   
+Public Address 1 compressed: 1GFw2UnczLkhDjRQD69r5GHuFRuwAs6GZE
+
+Public Address 3: 3QFEiPKyCqQ5WtXxGtZwdW57RzcVhitGsC  
+Public Address bc1 P2WPKH: bc1q5awvaawa4xqna4hg0eaxp56cn88uj8phhtmn89    
+Public Address bc1 P2WSH: bc1qw3fa45prwq9mvxzzupydh5r03hskax5wskgxntxujk0x4efvn2ksm8xkng
+
+
+

@@ -2,6 +2,7 @@ import os
 import hashlib
 
 
+# public and private keys generator
 def sha256(data):
     digest = hashlib.new("sha256")
     digest.update(data)
