@@ -8,6 +8,9 @@ orig_addr_list = []
 btc_addr_list = []
 wallet_info_list = {}
 
+# error log file
+error_log = open('error.txt', 'a')
+
 def getDbConnect():
     connect = sqlite3.connect(DB_PATH)
     connect.row_factory = sqlite3.Row
@@ -56,42 +59,58 @@ def get_wallet_info(btc_addr_hash):
 connection, cursor = getDbConnect()
 
 # 1. get list of addresses from db / orig_addr
-orig_addr_list = cursor.execute("SELECT orig_addr FROM balances").fetchall()
+cursor.execute("SELECT orig_addr FROM balances").fetchall()
+rows = cursor.fetchall()
+orig_addr_list = [row['orig_addr'] for row in rows]
 
 # 2. get list of addresses from file / btc_addr
 btc_addr_list = read_addr_from_file()
 
 # 3. convert btc_addr to sha256
 for btc_addr in btc_addr_list:
+    
+    # if btc_addr from the file exists in DB -> skip it
+    if btc_addr in orig_addr_list:
+        error_log.write(f'{btc_addr} already exists in DB\n')
+        print(f'! {btc_addr} already exists in DB')
+        continue
+    
+    # 4 make a sha256 from btc_addr
     hashed_btc_addr = string_to_hash256(btc_addr)
 
-    # 4. generate wallet info by sha256
-    wallet_info_list = get_wallet_info(hashed_btc_addr)
+    # 5. generate wallet info by sha256
+    wallet_info = get_wallet_info(hashed_btc_addr)
 
-print(wallet_info_list)
-
-# for address in addresses:
-#     stock_dict[symbol['symbol']] = symbol['id']
-
-# list_of_symbols = [symbol['symbol'] for symbol in symbols] 
-
-# for i in range(0, len(list_of_symbols), chunk_size):
-#     symbol_chunk = list_of_symbols[i:i+chunk_size]
+    # 6. data upload to db
+        
+    cursor.execute("""
+            INSERT INTO balances (
+            orig_addr,
+            orig_addr_sha256,
+            priv_key_hex,
+            priv_key_wif,
+            priv_key_wif_compr, 
+            pub_key, 
+            pub_key_compr,
+            pub_addr,   
+            pub_addr_compr,   
+            pub_addr_3,  
+            pub_addr_bc1_p2wpkh,    
+            pub_addr_bc1_p2wsh) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (btc_addr,
+                    hashed_btc_addr,
+                    hashed_btc_addr,
+                    wallet_info['wif'],
+                    wallet_info['wifc'],
+                    wallet_info['pubkey'],
+                    wallet_info['pubkeyc'],
+                    wallet_info['pubaddr1'],
+                    wallet_info['pubaddr1c'],
+                    wallet_info['pubaddr3'],
+                    wallet_info['pubaddrbc1_P2WPKH'],
+                    wallet_info['pubaddrbc1_P2WSH']
+            ))
     
-#     # Get daily price data for AAPL over the last 5 trading days.
-#     barset = api.get_barset(symbol_chunk, 'day')
-
-#     for symbol in barset:
-#         for bar in barset[symbol]:
-#             if symbol in stock_dict.keys():
-#                 bar_id = stock_dict[symbol]
-#             else:
-#                 print(f'No stock_id for {symbol} found!')
-#                 continue
-            
-#             cursor.execute(f'INSERT INTO stock_price (stock_id, date, open, high, low, close, volume) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-#                         (int(bar_id), bar.t.date(), bar.o, bar.h, bar.l, bar.c, bar.v))
-#             print(f'{symbol}: inserted')
-#     print(f'{i}->{i+chunk_size}')
+    print(f'{btc_addr} was added into DB')
     
-# connection.commit()
+connection.commit()
