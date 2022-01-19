@@ -3,4 +3,3 @@ requests
 base58
 ecdsa
 bitcoinaddress
-psycopg2
