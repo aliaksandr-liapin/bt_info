@@ -1,6 +1,4 @@
-addresses_0-200k.txt
-matched.txt
-hashes.txt
+*.txt
 btc.db
 
 # Byte-compiled / optimized / DLL files

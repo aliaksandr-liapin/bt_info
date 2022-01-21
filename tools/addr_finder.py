@@ -1,14 +1,13 @@
 import hashlib
-from itertools import count
 from bitcoinaddress import Wallet
 
-DEV_STATUS = True
+DEV_STATUS = False
 
 def read_addr_from_file():
     if DEV_STATUS:
-        f = open('./source/addr_list_test.txt', 'r')
+        f = open('./source/addr_list_test.txt', 'r', encoding="utf8")
     else:
-        f = open('./source/addr_list_prod.txt', 'r')
+        f = open('./source/addr_list_prod.txt', 'r',  encoding="utf8")
         
     lines = f.readlines()
     hashes = []

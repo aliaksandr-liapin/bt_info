@@ -1,5 +1,0 @@
-bs4
-requests
-base58
-ecdsa
-bitcoinaddress

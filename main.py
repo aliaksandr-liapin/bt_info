@@ -3,12 +3,12 @@ from tools import addr_finder as finder
 count = 1
 found = 0
 
-DEV_STATUS = True
+DEV_STATUS = False
 
 if DEV_STATUS:
-    matched_addr = open('./results/matched_test.txt', 'a')
+    matched_addr = open('./results/matched_test.txt', 'a',  encoding="utf8")
 else:
-    matched_addr = open('./results/matched_prod.txt', 'a')    
+    matched_addr = open('./results/matched_prod.txt', 'a',  encoding="utf8")    
 
 btc_addr_list = set(finder.read_addr_from_file())
 

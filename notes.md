@@ -25,3 +25,9 @@ Ideas:
         d. generate sha256 using priv_key_3 > use as priv_key for pub_addr (pub_addrc, etc ...) - priv_key_4
         e. generate sha256 using priv_key_4 > use as priv_key for pub_addr (pub_addrc, etc ...) - priv_key_5
         f. generate sha256 using priv_key_5 > use as priv_key for pub_addr (pub_addrc, etc ...)
+
+bs4
+requests
+base58
+ecdsa
+bitcoinaddress
