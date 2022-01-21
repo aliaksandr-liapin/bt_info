@@ -15,5 +15,13 @@ Public Address 3: 3QFEiPKyCqQ5WtXxGtZwdW57RzcVhitGsC
 Public Address bc1 P2WPKH: bc1q5awvaawa4xqna4hg0eaxp56cn88uj8phhtmn89    
 Public Address bc1 P2WSH: bc1qw3fa45prwq9mvxzzupydh5r03hskax5wskgxntxujk0x4efvn2ksm8xkng
 
-
-
+Ideas:
+1. Get ALL addresses
+2. Add few extra check:
+    - 5 iterations of priv_key generation
+        a. generate sha256 using orig_addr > use as priv_key for pub_addr (pub_addrc, etc ...) - priv_key_1
+        b. generate sha256 using priv_key_1 > use as priv_key for pub_addr (pub_addrc, etc ...) - priv_key_2
+        c. generate sha256 using priv_key_2 > use as priv_key for pub_addr (pub_addrc, etc ...) - priv_key_3
+        d. generate sha256 using priv_key_3 > use as priv_key for pub_addr (pub_addrc, etc ...) - priv_key_4
+        e. generate sha256 using priv_key_4 > use as priv_key for pub_addr (pub_addrc, etc ...) - priv_key_5
+        f. generate sha256 using priv_key_5 > use as priv_key for pub_addr (pub_addrc, etc ...)
