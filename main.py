@@ -1,64 +1,48 @@
-import hashlib
-from itertools import count
-from bitcoinaddress import Wallet
+from tools import addr_finder as finder
 
-
-
-def read_addr_from_file():
-    f = open('addresses_0-200k.txt', 'r')
-    lines = f.readlines()
-    hashes = []
-    
-    for line in lines:
-        trimmed_line = str(line).rstrip()
-        hashes.append(trimmed_line)
-        
-    return hashes
-
-def string_to_hash256(btc_addr):
-    
-    #encode() converts the string into bytes to be accepted by the hash function.
-    result = hashlib.sha256(btc_addr.encode())
-
-    #hexidigest() returns the encoded data in hexadecimal format
-    return result.hexdigest()
-
-def get_wallet_info(btc_addr_hash):
-    
-    wallet_info = {}
-    # wallet info generator (by private key/sha256)
-    wallet = Wallet(btc_addr_hash)
-    # print(wallet.key.__dict__)
-    # wallet_info['wif'] = wallet.key.__dict__['mainnet'].__dict__['wif']
-    # wallet_info['wifc'] = wallet.key.__dict__['mainnet'].__dict__['wifc']
-    # wallet_info['pubkey'] = wallet.address.__dict__['pubkey']
-    # wallet_info['pubkeyc'] = wallet.address.__dict__['pubkeyc']
-    wallet_info['pubaddr1'] = wallet.address.__dict__['mainnet'].__dict__['pubaddr1']
-    wallet_info['pubaddr1c'] = wallet.address.__dict__['mainnet'].__dict__['pubaddr1c']
-    # wallet_info['pubaddr3'] = wallet.address.__dict__['mainnet'].__dict__['pubaddr3']
-    # wallet_info['pubaddrbc1_P2WPKH'] = wallet.address.__dict__['mainnet'].__dict__['pubaddrbc1_P2WPKH']
-    # wallet_info['pubaddrbc1_P2WSH'] = wallet.address.__dict__['mainnet'].__dict__['pubaddrbc1_P2WSH']
-    
-    return wallet_info
-
-# 1. read orig_btc_addr from file
-btc_addr_list = set(read_addr_from_file())
 count = 1
+found = 0
 
-matched_addr = open('matched.txt', 'a')
+DEV_STATUS = True
+
+if DEV_STATUS:
+    matched_addr = open('./results/matched_test.txt', 'a')
+else:
+    matched_addr = open('./results/matched_prod.txt', 'a')    
+
+btc_addr_list = set(finder.read_addr_from_file())
 
 for btc_addr in btc_addr_list:
+    hashed_btc_addr = finder.string_to_hash256(btc_addr)
+    wallet_info = finder.get_wallet_info(hashed_btc_addr)
     
-    # 2 make a sha256 from btc_addr
-    hashed_btc_addr = string_to_hash256(btc_addr)
-
-    # 5. generate wallet info by sha256
-    wallet_info = get_wallet_info(hashed_btc_addr)
     
-    if wallet_info['pubaddr1c'] in btc_addr_list:
-        matched_addr.write(f'Found match. File-{btc_addr} <> Hash-{wallet_info["pubaddr1c"]} -> Priv_Key {hashed_btc_addr} \n')
-    else:
-        print(count)
-        count += 1
+    if wallet_info['pubaddr1'] in btc_addr_list:
+        matched_addr.write(f'Found (pubaddr1). File-{btc_addr} <> Hash-{wallet_info["pubaddr1"]} -> Priv_Key {hashed_btc_addr} \n')
+        found += 1
         
+    elif wallet_info['pubaddr1c'] in btc_addr_list:
+        matched_addr.write(f'Found (pubaddr1c). File-{btc_addr} <> Hash-{wallet_info["pubaddr1c"]} -> Priv_Key {hashed_btc_addr} \n')
+        found += 1
+        
+    elif wallet_info['pubaddr3'] in btc_addr_list:
+        matched_addr.write(f'Found (pubaddr3). File-{btc_addr} <> Hash-{wallet_info["pubaddr3"]} -> Priv_Key {hashed_btc_addr} \n')
+        found += 1
+        
+    elif wallet_info['pubaddrbc1_P2WPKH'] in btc_addr_list:
+        matched_addr.write(f'Found (pubaddrbc1_P2WPKH). File-{btc_addr} <> Hash-{wallet_info["pubaddrbc1_P2WPKH"]} -> Priv_Key {hashed_btc_addr} \n')
+        found += 1
+        
+    elif wallet_info['pubaddrbc1_P2WSH'] in btc_addr_list:
+        matched_addr.write(f'Found (pubaddrbc1_P2WSH). File-{btc_addr} <> Hash-{wallet_info["pubaddrbc1_P2WSH"]} -> Priv_Key {hashed_btc_addr} \n')
+        found += 1
+        
+    else:
+        print(f'[{found}] #{count}')
+        count += 1
+       
 matched_addr.close()
+
+
+
+

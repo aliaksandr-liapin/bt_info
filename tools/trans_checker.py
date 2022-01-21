@@ -2,20 +2,16 @@ import requests, bs4
 import time
 import re
 
-# 1. read address from the file
-def read_addr_from_file():
-    f = open('hashes.txt', 'r')
-    lines = f.readlines()
-    address_list = []
-    
-    for line in lines:
-        trimmed_line = str(line).rstrip()
-        address_list.append(trimmed_line)
-        
-    return address_list
+DEV_STATUS = True
 
-def read_trans_from_file():
-    f = open('addr_tx_test.txt', 'r')
+basic_url = 'https://blockchainsql.io/'
+
+def read_addr_from_file():
+    if DEV_STATUS:
+        f = open('../results/matched_test.txt', 'r')
+    else:
+        f = open('../results/matched_prod.txt', 'r')
+        
     lines = f.readlines()
     tx_list = []
     
@@ -25,31 +21,20 @@ def read_trans_from_file():
         
     return tx_list
 
-basic_url = 'https://blockchainsql.io/'
-addr_info = set(read_addr_from_file())
-trans_data_list = open('addr_trans_list.txt', 'a')
-
-# 2. Get address data 
 def check_transactions_by_addr(address):
-    # url = f'https://www.blockchain.com/btc/address/{address}'
-
     url = f'https://blockchainsql.io/explorer/address/{address}'
     
     time.sleep(0.8)
     res = requests.get(url)
+    
     if res.status_code != 200:
         print(f'Stopped, code: {res.status_code}')
         return None, None, None
         
     soup = bs4.BeautifulSoup(res.text, features="html.parser")
     links = soup.findAll('a', href=re.compile('^/explorer/transaction/'))
-    print('--------------------------------')
-    for link in links:
-        trans_data_list.write(f'{link}\n')
     
-    addr_data = address
-
-    return addr_data
+    return links
 
 def check_addr_by_transaction(transaction):
     addr_url = f'{basic_url}{transaction}'
